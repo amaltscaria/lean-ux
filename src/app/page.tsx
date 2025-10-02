@@ -119,11 +119,19 @@ const storySections: StorySection[] = [
   },
   {
     id: 14,
-    title: "User Personas",
-    content: "Joseph Mathew is a 64-year-old farmer from Wayanad in Kerala. He owns a couple of cows and delivers milk daily at the local milk society. His frustrations include difficulty finding trustworthy local support, loneliness from children and grandchildren living overseas, and lack of trusted companions. Anita Mathew is a 31-year-old IT professional from Manchester, UK. She relocated from Kerala after her husband decided to relocate overseas.",
+    title: "User Personas - Elderly Citizen",
+    content: "Joseph Mathew is a 64-year-old farmer from Wayanad in Kerala. He owns a couple of cows and delivers milk daily at the local milk society. His frustrations include difficulty finding trustworthy local support, loneliness from children and grandchildren living overseas, and lack of trusted companions. He struggles with technology but is eager to connect with reliable helpers who understand his cultural context and language preferences.",
     image: "image22-73.jpeg",
     phase: "MAKE",
     sectionType: "text-right"
+  },
+  {
+    id: 25,
+    title: "User Personas - Overseas Daughter",
+    content: "Anita Mathew is a 31-year-old IT professional from Manchester, UK. She relocated from Kerala after her husband decided to relocate overseas. As an overseas daughter, she constantly worries about her elderly parents back home and struggles to find reliable, verified care support from abroad while managing her busy professional life. She needs peace of mind through real-time updates and trusted companion services for her parents.",
+    image: "image23-75.jpeg",
+    phase: "MAKE",
+    sectionType: "text-left"
   },
   {
     id: 15,
@@ -211,18 +219,25 @@ export default function Portfolio() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [scrollY, setScrollY] = useState(0)
   const [currentPhase, setCurrentPhase] = useState<'THINK' | 'MAKE' | 'CHECK'>('THINK')
+  const [showBackToTop, setShowBackToTop] = useState(false)
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
 
   useEffect(() => {
     setIsLoaded(true)
 
     const handleScroll = () => {
-      setScrollY(window.scrollY)
+      const scrollPosition = window.scrollY
+      setScrollY(scrollPosition)
+      setShowBackToTop(scrollPosition > 500)
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   // Add intersection observer for phase tracking
   useEffect(() => {
@@ -377,10 +392,10 @@ export default function Portfolio() {
               <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-br from-purple-300/15 to-pink-300/15 rounded-full blur-md animate-bounce" style={{ animationDuration: '2s' }} />
             </div>
 
-            <div className="max-w-[90vw] mx-auto px-4 relative z-10">
-              <div className="grid lg:grid-cols-5 gap-16 items-center">
+            <div className="max-w-[95vw] mx-auto px-2 relative z-10">
+              <div className="grid lg:grid-cols-3 gap-12 items-center">
                 {/* Enhanced text content */}
-                <div className="lg:col-span-2 space-y-6 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
+                <div className="lg:col-span-1 space-y-6 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
                   <div className="group">
                     <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:scale-105 ${
                       section.phase === 'THINK'
@@ -413,7 +428,7 @@ export default function Portfolio() {
                 </div>
 
                 {/* Enhanced image with advanced hover effects */}
-                <div className="lg:col-span-3 relative group">
+                <div className="lg:col-span-2 relative group">
                   {/* Floating background elements */}
                   <div className="absolute -inset-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                     <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-sm animate-pulse" />
@@ -432,8 +447,8 @@ export default function Portfolio() {
                       <Image
                         src={`/images/${section.image}`}
                         alt={section.title}
-                        width={1200}
-                        height={900}
+                        width={1600}
+                        height={1200}
                         className="w-full h-auto transition-all duration-1000 group-hover:scale-110 group-hover:brightness-110"
                       />
 
@@ -464,14 +479,40 @@ export default function Portfolio() {
           >
             <div className="max-w-[90vw] mx-auto px-4">
               <div className="grid lg:grid-cols-5 gap-12 items-start">
-                <div className="lg:col-span-3 relative order-2 lg:order-1">
-                  <Image
-                    src={`/images/${section.image}`}
-                    alt={section.title}
-                    width={1200}
-                    height={900}
-                    className="w-full h-auto rounded-xl shadow-2xl"
-                  />
+                <div className="lg:col-span-3 relative order-2 lg:order-1 group">
+                  {/* Floating background elements */}
+                  <div className="absolute -inset-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-sm animate-pulse" />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full blur-sm animate-bounce" />
+                  </div>
+
+                  <div className="relative overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-4xl group-hover:-translate-y-3 group-hover:rotate-1">
+                    {/* Enhanced glow effect with animation */}
+                    <div className={`absolute -inset-2 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 blur-xl animate-pulse ${
+                      section.phase === 'THINK' ? 'bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500' :
+                      section.phase === 'MAKE' ? 'bg-gradient-to-r from-green-400 via-green-500 to-teal-500' :
+                      'bg-gradient-to-r from-orange-400 via-orange-500 to-red-500'
+                    }`} />
+
+                    <div className="relative bg-white rounded-2xl overflow-hidden border border-gray-100">
+                      <Image
+                        src={`/images/${section.image}`}
+                        alt={section.title}
+                        width={1600}
+                        height={1200}
+                        className="w-full h-auto transition-all duration-1000 group-hover:scale-110 group-hover:brightness-110"
+                      />
+
+                      {/* Multi-layer overlay effects */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-500/5 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1500" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="lg:col-span-2 order-1 lg:order-2 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
                   <div className="mb-4">
@@ -696,6 +737,36 @@ export default function Portfolio() {
           </div>
         </div>
       </footer>
+
+      {/* Enhanced Floating Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-50 group p-5 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 text-white rounded-full shadow-2xl hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 transition-all duration-500 hover:scale-125 hover:shadow-4xl hover:rotate-12 animate-bounce"
+          style={{ animationDuration: '3s' }}
+          aria-label="Back to top"
+        >
+          <svg className="w-7 h-7 transition-all duration-500 group-hover:-translate-y-2 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+
+          {/* Enhanced glow effects */}
+          <div className="absolute -inset-2 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 rounded-full blur-lg opacity-0 group-hover:opacity-75 transition-all duration-500 animate-pulse -z-10" />
+          <div className="absolute -inset-4 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-500 rounded-full blur-xl opacity-0 group-hover:opacity-50 transition-all duration-700 -z-20" />
+
+          {/* Shimmer effect */}
+          <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+          </div>
+
+          {/* Floating particles */}
+          <div className="absolute -inset-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div className="absolute top-0 left-2 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '0.1s' }} />
+            <div className="absolute bottom-2 right-0 w-1 h-1 bg-blue-300 rounded-full animate-ping" style={{ animationDelay: '0.3s' }} />
+            <div className="absolute top-3 right-3 w-1 h-1 bg-purple-300 rounded-full animate-ping" style={{ animationDelay: '0.5s' }} />
+          </div>
+        </button>
+      )}
     </div>
   )
 }
