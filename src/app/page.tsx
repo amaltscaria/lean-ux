@@ -576,7 +576,7 @@ export default function Portfolio() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h3 className="text-4xl font-bold mb-8">Let's Create Something Amazing</h3>
+          <h3 className="text-4xl font-bold mb-8">Let&apos;s Create Something Amazing</h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Available for UX design opportunities in the UK and remote projects worldwide.
           </p>
