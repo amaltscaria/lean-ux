@@ -255,6 +255,7 @@ export default function Portfolio() {
           <section
             key={section.id}
             ref={el => { sectionsRef.current[index] = el }}
+            data-section-id={section.id}
             className="relative min-h-screen flex items-center justify-center overflow-hidden"
           >
             {/* Animated background gradient overlay */}
@@ -331,7 +332,10 @@ export default function Portfolio() {
                 {/* Animated CTA */}
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <button
-                    onClick={() => document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={() => {
+                      const firstContentSection = document.querySelector('[data-section-id="2"]')
+                      firstContentSection?.scrollIntoView({ behavior: 'smooth' })
+                    }}
                     className="group px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 hover:shadow-2xl transform"
                   >
                     <span className="flex items-center gap-3">
@@ -362,6 +366,7 @@ export default function Portfolio() {
           <section
             key={section.id}
             ref={el => { sectionsRef.current[index] = el }}
+            data-section-id={section.id}
             className="py-24 relative overflow-hidden"
           >
             {/* Subtle background pattern */}
@@ -445,6 +450,7 @@ export default function Portfolio() {
           <section
             key={section.id}
             ref={el => { sectionsRef.current[index] = el }}
+            data-section-id={section.id}
             className="py-20 bg-white"
           >
             <div className="max-w-[90vw] mx-auto px-4">
@@ -485,6 +491,7 @@ export default function Portfolio() {
           <section
             key={section.id}
             ref={el => { sectionsRef.current[index] = el }}
+            data-section-id={section.id}
             className="py-12"
           >
             <div className="max-w-[95vw] mx-auto px-2">
