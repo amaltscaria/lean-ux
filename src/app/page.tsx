@@ -538,7 +538,7 @@ export default function Portfolio() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             <div className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-blue-600 bg-clip-text text-transparent">
-              Arun T Scaria
+              Lean UX
             </div>
 
             {/* Phase Progress Indicator */}
