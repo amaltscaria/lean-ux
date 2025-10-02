@@ -318,7 +318,7 @@ export default function Portfolio() {
             <div className="relative z-20 text-center text-white px-4 max-w-6xl mx-auto">
               <div className={`transition-all duration-1500 delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
                 <div className="mb-6">
-                  <span className="inline-block px-6 py-3 bg-white/10 backdrop-blur-lg rounded-full text-lg font-medium border border-white/20">
+                  <span className="inline-block px-6 py-3 bg-white/10 backdrop-blur-lg rounded-full text-lg font-semibold border border-white/20">
                     UX Case Study
                   </span>
                 </div>
@@ -352,7 +352,7 @@ export default function Portfolio() {
             {/* Enhanced scroll indicator */}
             <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
               <div className="flex flex-col items-center gap-3 text-white/80">
-                <span className="text-sm font-medium">Scroll to explore</span>
+                <span className="text-sm font-semibold">Scroll to explore</span>
                 <div className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center backdrop-blur-sm">
                   <div className="w-1 h-3 bg-white rounded-full mt-2 animate-bounce"></div>
                 </div>
@@ -369,15 +369,18 @@ export default function Portfolio() {
             data-section-id={section.id}
             className="py-24 relative overflow-hidden"
           >
-            {/* Subtle background pattern */}
+            {/* Enhanced background with animated elements */}
             <div className="absolute inset-0 opacity-20">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/15 to-transparent" />
+              {/* Floating micro animations */}
+              <div className="absolute top-10 right-10 w-16 h-16 bg-gradient-to-br from-blue-300/15 to-purple-300/15 rounded-full blur-lg animate-pulse" />
+              <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-br from-purple-300/15 to-pink-300/15 rounded-full blur-md animate-bounce" style={{ animationDuration: '2s' }} />
             </div>
 
             <div className="max-w-[90vw] mx-auto px-4 relative z-10">
               <div className="grid lg:grid-cols-5 gap-16 items-center">
                 {/* Enhanced text content */}
-                <div className="lg:col-span-2 space-y-6">
+                <div className="lg:col-span-2 space-y-6 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
                   <div className="group">
                     <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:scale-105 ${
                       section.phase === 'THINK'
@@ -391,11 +394,11 @@ export default function Portfolio() {
                     </span>
                   </div>
 
-                  <h2 className="text-4xl md:text-5xl font-black leading-tight bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                  <h2 className="text-4xl md:text-5xl font-black leading-tight text-gray-900">
                     {section.title}
                   </h2>
 
-                  <p className="text-lg md:text-xl text-gray-800 leading-relaxed font-light">
+                  <p className="text-lg md:text-xl text-gray-900 leading-relaxed font-semibold">
                     {section.content}
                   </p>
 
@@ -409,36 +412,42 @@ export default function Portfolio() {
                   </div>
                 </div>
 
-                {/* Enhanced image with hover effects */}
+                {/* Enhanced image with advanced hover effects */}
                 <div className="lg:col-span-3 relative group">
-                  <div className="relative overflow-hidden rounded-2xl shadow-2xl transition-all duration-500 group-hover:shadow-3xl group-hover:-translate-y-2">
-                    {/* Glow effect */}
-                    <div className={`absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-75 transition-opacity duration-500 blur-xl ${
-                      section.phase === 'THINK' ? 'bg-gradient-to-r from-blue-400 to-blue-600' :
-                      section.phase === 'MAKE' ? 'bg-gradient-to-r from-green-400 to-green-600' :
-                      'bg-gradient-to-r from-orange-400 to-orange-600'
+                  {/* Floating background elements */}
+                  <div className="absolute -inset-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-sm animate-pulse" />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full blur-sm animate-bounce" />
+                  </div>
+
+                  <div className="relative overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-4xl group-hover:-translate-y-3 group-hover:rotate-1">
+                    {/* Enhanced glow effect with animation */}
+                    <div className={`absolute -inset-2 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 blur-xl animate-pulse ${
+                      section.phase === 'THINK' ? 'bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500' :
+                      section.phase === 'MAKE' ? 'bg-gradient-to-r from-green-400 via-green-500 to-teal-500' :
+                      'bg-gradient-to-r from-orange-400 via-orange-500 to-red-500'
                     }`} />
 
-                    <div className="relative bg-white rounded-2xl overflow-hidden">
+                    <div className="relative bg-white rounded-2xl overflow-hidden border border-gray-100">
                       <Image
                         src={`/images/${section.image}`}
                         alt={section.title}
                         width={1200}
                         height={900}
-                        className="w-full h-auto transition-transform duration-700 group-hover:scale-105"
+                        className="w-full h-auto transition-all duration-1000 group-hover:scale-110 group-hover:brightness-110"
                       />
 
-                      {/* Overlay on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      {/* Multi-layer overlay effects */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-500/5 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1500" />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Floating badge */}
-                  <div className="absolute -top-4 -right-4 z-10">
-                    <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-gray-200/50">
-                      <span className="text-sm font-semibold text-gray-700">#{section.id.toString().padStart(2, '0')}</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -464,7 +473,7 @@ export default function Portfolio() {
                     className="w-full h-auto rounded-xl shadow-2xl"
                   />
                 </div>
-                <div className="lg:col-span-2 order-1 lg:order-2">
+                <div className="lg:col-span-2 order-1 lg:order-2 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
                   <div className="mb-4">
                     <span className={`px-4 py-2 rounded-full text-sm font-semibold ${
                       section.phase === 'THINK' ? 'bg-blue-500 text-white' :
@@ -477,7 +486,7 @@ export default function Portfolio() {
                   <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
                     {section.title}
                   </h2>
-                  <p className="text-lg md:text-xl text-gray-800 leading-relaxed">
+                  <p className="text-lg md:text-xl text-gray-900 leading-relaxed font-semibold">
                     {section.content}
                   </p>
                 </div>
@@ -495,7 +504,7 @@ export default function Portfolio() {
             className="py-12"
           >
             <div className="max-w-[95vw] mx-auto px-2">
-              <div className="text-center mb-8">
+              <div className="text-center mb-8 bg-white/80 backdrop-blur-sm rounded-2xl p-8 mx-auto max-w-5xl shadow-lg border border-gray-100">
                 <div className="flex justify-center mb-4">
                   <span className={`px-4 py-2 rounded-full text-sm font-semibold ${
                     section.phase === 'THINK' ? 'bg-blue-500 text-white' :
@@ -508,7 +517,7 @@ export default function Portfolio() {
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
                   {section.title}
                 </h2>
-                <p className="text-lg md:text-xl text-gray-800 leading-relaxed max-w-4xl mx-auto">
+                <p className="text-lg md:text-xl text-gray-900 leading-relaxed max-w-4xl mx-auto font-semibold">
                   {section.content}
                 </p>
               </div>
@@ -532,43 +541,90 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {/* Floating geometric shapes */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-xl animate-pulse" />
+        <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-lg animate-bounce" style={{ animationDuration: '3s' }} />
+        <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-gradient-to-br from-green-400/10 to-blue-400/10 rounded-full blur-lg animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/3 left-2/3 w-28 h-28 bg-gradient-to-br from-orange-400/10 to-red-400/10 rounded-full blur-xl animate-bounce" style={{ animationDuration: '4s', animationDelay: '2s' }} />
+
+        {/* Animated gradient orbs */}
+        <div className="absolute top-1/4 right-1/4 w-40 h-40 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full blur-2xl animate-pulse" />
+        <div className="absolute bottom-1/4 left-1/3 w-36 h-36 bg-gradient-to-r from-green-500/5 to-teal-500/5 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+      </div>
       {/* Enhanced Navigation with Phase Indicator */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-gray-200/50 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-b border-gray-200/30 shadow-xl">
+        {/* Animated background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 via-purple-50/30 to-blue-50/50 opacity-60" />
+
+        <div className="relative max-w-7xl mx-auto px-6 py-3">
           <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-blue-600 bg-clip-text text-transparent">
-              Lean UX
+            {/* Enhanced Logo with icon */}
+            <div className="flex items-center space-x-3 group cursor-pointer">
+              <div className="relative">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
+                  <span className="text-white font-bold text-sm">L</span>
+                </div>
+                {/* Glow effect */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
+              </div>
+              <div className="text-xl font-black bg-gradient-to-r from-gray-900 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Lean UX
+              </div>
             </div>
 
-            {/* Phase Progress Indicator */}
-            <div className="hidden lg:flex items-center space-x-8">
-              <div className="flex items-center space-x-6">
-                {(['THINK', 'MAKE', 'CHECK'] as const).map((phase, idx) => (
-                  <div key={phase} className="flex items-center space-x-2">
+            {/* Enhanced Phase Progress Indicator */}
+            <div className="hidden lg:flex items-center space-x-1 bg-white/60 backdrop-blur-sm rounded-full px-6 py-2 border border-gray-200/50 shadow-lg">
+              {(['THINK', 'MAKE', 'CHECK'] as const).map((phase, idx) => (
+                <div key={phase} className="flex items-center space-x-3">
+                  <div className={`relative flex items-center space-x-2 px-4 py-1 rounded-full transition-all duration-500 ${
+                    currentPhase === phase
+                      ? 'bg-gradient-to-r from-blue-100 to-purple-100 scale-105'
+                      : 'hover:bg-gray-100'
+                  }`}>
                     <div className={`w-3 h-3 rounded-full transition-all duration-300 ${
                       currentPhase === phase
-                        ? phase === 'THINK' ? 'bg-blue-500 scale-125 shadow-lg shadow-blue-500/50' :
-                          phase === 'MAKE' ? 'bg-green-500 scale-125 shadow-lg shadow-green-500/50' :
-                          'bg-orange-500 scale-125 shadow-lg shadow-orange-500/50'
+                        ? phase === 'THINK' ? 'bg-blue-500 shadow-lg shadow-blue-500/50 animate-pulse' :
+                          phase === 'MAKE' ? 'bg-green-500 shadow-lg shadow-green-500/50 animate-pulse' :
+                          'bg-orange-500 shadow-lg shadow-orange-500/50 animate-pulse'
                         : 'bg-gray-300'
                     }`} />
-                    <span className={`text-sm font-medium transition-colors ${
+                    <span className={`text-sm font-semibold transition-colors ${
                       currentPhase === phase ? 'text-gray-900' : 'text-gray-500'
                     }`}>
                       {phase}
                     </span>
-                    {idx < 2 && <div className="w-8 h-px bg-gray-300" />}
                   </div>
-                ))}
-              </div>
+                  {idx < 2 && (
+                    <div className={`w-6 h-0.5 transition-all duration-300 ${
+                      currentPhase === phase ? 'bg-gradient-to-r from-blue-400 to-purple-400' : 'bg-gray-300'
+                    }`} />
+                  )}
+                </div>
+              ))}
             </div>
 
-            <div className="hidden md:flex space-x-8">
-              <a href="#story" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Work</a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact</a>
-              <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+            {/* Enhanced Navigation Links */}
+            <div className="hidden md:flex items-center space-x-4">
+              <a href="#story" className="flex items-center justify-center h-10 px-4 text-gray-900 hover:text-blue-600 transition-all duration-300 font-semibold text-sm hover:bg-blue-50 rounded-lg">
+                Work
+              </a>
+              <a href="#contact" className="flex items-center justify-center h-10 px-4 text-gray-900 hover:text-blue-600 transition-all duration-300 font-semibold text-sm hover:bg-blue-50 rounded-lg">
+                Contact
+              </a>
+              <button className="flex items-center justify-center h-10 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg text-sm">
                 Download CV
+              </button>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button className="p-3 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200/50 shadow-lg hover:shadow-xl transition-all duration-300">
+                <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
               </button>
             </div>
           </div>
@@ -580,20 +636,63 @@ export default function Portfolio() {
         {storySections.map((section, index) => renderSection(section, index))}
       </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h3 className="text-4xl font-bold mb-8">Let&apos;s Create Something Amazing</h3>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Available for UX design opportunities in the UK and remote projects worldwide.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="mailto:arun@example.com" className="px-8 py-4 bg-white text-gray-900 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300">
-              Get in Touch
+      {/* Enhanced Footer */}
+      <footer className="relative bg-gradient-to-br from-gray-900 via-blue-900/30 to-purple-900/20 text-white py-24 overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full blur-2xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full blur-xl animate-bounce" style={{ animationDuration: '3s' }} />
+          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-br from-green-500 to-teal-500 rounded-full blur-lg animate-pulse" style={{ animationDelay: '1s' }} />
+        </div>
+
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="w-full h-full" style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+            backgroundSize: '40px 40px'
+          }} />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 text-center z-10">
+          <div className="mb-12">
+            <h3 className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+              Let&apos;s Create Something Amazing
+            </h3>
+            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full mb-8" />
+            <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto text-gray-300 leading-relaxed">
+              Available for UX design opportunities in the UK and remote projects worldwide.
+              Ready to turn your ideas into extraordinary digital experiences.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            <a href="mailto:arun@example.com" className="group relative overflow-hidden px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-gray-900 rounded-full font-bold hover:from-blue-50 hover:to-purple-50 transition-all duration-500 hover:scale-105 hover:shadow-2xl shadow-lg">
+              <span className="relative z-10 flex items-center justify-center gap-3">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+                Get in Touch
+              </span>
+              {/* Shimmer effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             </a>
-            <a href="#" className="px-8 py-4 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300">
-              Download CV
+
+            <a href="#" className="group relative overflow-hidden px-10 py-5 border-2 border-white/80 text-white rounded-full font-bold hover:bg-white hover:text-gray-900 transition-all duration-500 hover:scale-105 hover:shadow-2xl backdrop-blur-sm">
+              <span className="relative z-10 flex items-center justify-center gap-3">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+                Download CV
+              </span>
             </a>
+          </div>
+
+          {/* Social links or additional content */}
+          <div className="border-t border-white/20 pt-8">
+            <p className="text-gray-400 text-sm">
+              © 2024 Lean UX Portfolio. Crafted with passion for exceptional user experiences.
+            </p>
           </div>
         </div>
       </footer>
