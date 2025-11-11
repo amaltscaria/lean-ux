@@ -14,14 +14,6 @@ interface StorySection {
 
 const storySections: StorySection[] = [
   {
-    id: 1,
-    title: "CompanionX",
-    content: "A Human-Centered Platform Connecting Overseas Families with Trusted Companions for Kerala's Elderly using the Lean UX Method",
-    image: "image1-31.jpeg",
-    phase: "THINK",
-    sectionType: "hero"
-  },
-  {
     id: 2,
     title: "Lean UX Method Overview",
     content: "CompanionX: A Human-Centered Platform Connecting Overseas Families with Trusted Companions for Kerala's Elderly using the Lean UX Method with Think-Make-Check phases. This systematic approach ensured user-centered design decisions backed by research and validation at every step.",
@@ -217,23 +209,44 @@ const storySections: StorySection[] = [
 
 export default function Portfolio() {
   const [isLoaded, setIsLoaded] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
-  const [currentPhase, setCurrentPhase] = useState<'THINK' | 'MAKE' | 'CHECK'>('THINK')
   const [showBackToTop, setShowBackToTop] = useState(false)
+  const [currentPhase, setCurrentPhase] = useState<'THINK' | 'MAKE' | 'CHECK'>('THINK')
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
+
+  // Mockup carousel state
+  const [currentMockupIndex, setCurrentMockupIndex] = useState(0)
+  const mockups = [
+    { id: 1, image: 'one.png', title: 'Welcome Screen', subtitle: 'Your Trusted Companion Platform' },
+    { id: 2, image: 'two.png', title: 'Connect with Care', subtitle: 'Find Verified Companions' },
+    { id: 3, image: 'three.png', title: 'Real-time Updates', subtitle: 'Stay Connected Always' },
+    { id: 4, image: 'four.png', title: 'Emergency Support', subtitle: 'Help When You Need It' },
+    { id: 5, image: 'five.png', title: 'Peace of Mind', subtitle: 'Monitor Care Remotely' },
+    { id: 6, image: 'six.png', title: 'Family Dashboard', subtitle: 'Complete Care Overview' },
+  ]
 
   useEffect(() => {
     setIsLoaded(true)
 
     const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      setScrollY(scrollPosition)
-      setShowBackToTop(scrollPosition > 500)
+      setShowBackToTop(window.scrollY > 500)
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Mockup carousel auto-advance
+  useEffect(() => {
+    if (mockups.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentMockupIndex((prevIndex) =>
+          prevIndex === mockups.length - 1 ? 0 : prevIndex + 1
+        )
+      }, 1500)
+
+      return () => clearInterval(interval)
+    }
+  }, [mockups.length])
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -265,204 +278,51 @@ export default function Portfolio() {
 
   const renderSection = (section: StorySection, index: number) => {
     switch (section.sectionType) {
-      case 'hero':
-        return (
-          <section
-            key={section.id}
-            ref={el => { sectionsRef.current[index] = el }}
-            data-section-id={section.id}
-            className="relative min-h-screen flex items-center justify-center overflow-hidden"
-          >
-            {/* Animated background gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-purple-900/30 to-blue-900/50 z-10" />
-
-            {/* Parallax background image */}
-            <div
-              className="absolute inset-0 scale-110"
-              style={{
-                transform: `translateY(${scrollY * 0.5}px)`,
-              }}
-            >
-              <Image
-                src={`/images/${section.image}`}
-                alt={section.title}
-                fill
-                className="object-cover object-center"
-                priority
-              />
-            </div>
-
-            {/* Floating particles effect - static positions for SSR compatibility */}
-            <div className="absolute inset-0 z-15">
-              {[
-                { left: 15, top: 25, delay: 0.5, duration: 3 },
-                { left: 85, top: 15, delay: 1.2, duration: 4 },
-                { left: 45, top: 65, delay: 0.8, duration: 2.5 },
-                { left: 75, top: 80, delay: 1.8, duration: 3.5 },
-                { left: 25, top: 45, delay: 0.3, duration: 4.2 },
-                { left: 65, top: 20, delay: 1.5, duration: 2.8 },
-                { left: 35, top: 85, delay: 0.7, duration: 3.8 },
-                { left: 90, top: 55, delay: 1.1, duration: 2.2 },
-                { left: 55, top: 35, delay: 1.9, duration: 4.5 },
-                { left: 20, top: 70, delay: 0.4, duration: 3.2 },
-                { left: 80, top: 40, delay: 1.6, duration: 2.9 },
-                { left: 40, top: 90, delay: 0.9, duration: 3.7 },
-                { left: 70, top: 10, delay: 1.3, duration: 4.1 },
-                { left: 10, top: 60, delay: 0.6, duration: 2.7 },
-                { left: 95, top: 30, delay: 1.7, duration: 3.4 },
-                { left: 50, top: 75, delay: 1.0, duration: 2.6 },
-                { left: 30, top: 50, delay: 0.2, duration: 4.3 },
-                { left: 85, top: 85, delay: 1.4, duration: 3.1 },
-                { left: 60, top: 5, delay: 0.1, duration: 2.4 },
-                { left: 5, top: 95, delay: 1.8, duration: 3.9 }
-              ].map((particle, i) => (
-                <div
-                  key={i}
-                  className="absolute w-2 h-2 bg-white/20 rounded-full animate-pulse"
-                  style={{
-                    left: `${particle.left}%`,
-                    top: `${particle.top}%`,
-                    animationDelay: `${particle.delay}s`,
-                    animationDuration: `${particle.duration}s`,
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Enhanced hero content */}
-            <div className="relative z-20 text-center text-white px-4 max-w-6xl mx-auto">
-              <div className={`transition-all duration-1500 delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                <div className="mb-6">
-                  <span className="inline-block px-6 py-3 bg-white/10 backdrop-blur-lg rounded-full text-lg font-semibold border border-white/20">
-                    UX Case Study
-                  </span>
-                </div>
-                <h1 className="text-7xl md:text-9xl font-black mb-8 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent leading-tight">
-                  {section.title}
-                </h1>
-                <p className="text-2xl md:text-3xl leading-relaxed max-w-5xl mx-auto mb-12 text-gray-100 font-light">
-                  {section.content}
-                </p>
-
-                {/* Animated CTA */}
-                <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                  <button
-                    onClick={() => {
-                      const firstContentSection = document.querySelector('[data-section-id="2"]')
-                      firstContentSection?.scrollIntoView({ behavior: 'smooth' })
-                    }}
-                    className="group px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 hover:shadow-2xl transform"
-                  >
-                    <span className="flex items-center gap-3">
-                      Explore the Journey
-                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Enhanced scroll indicator */}
-            <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
-              <div className="flex flex-col items-center gap-3 text-white/80">
-                <span className="text-sm font-semibold">Scroll to explore</span>
-                <div className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center backdrop-blur-sm">
-                  <div className="w-1 h-3 bg-white rounded-full mt-2 animate-bounce"></div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )
-
       case 'text-left':
         return (
           <section
             key={section.id}
             ref={el => { sectionsRef.current[index] = el }}
             data-section-id={section.id}
-            className="py-24 relative overflow-hidden"
+            className="py-20 bg-black relative overflow-hidden"
           >
-            {/* Enhanced background with animated elements */}
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/15 to-transparent" />
-              {/* Floating micro animations */}
-              <div className="absolute top-10 right-10 w-16 h-16 bg-gradient-to-br from-blue-300/15 to-purple-300/15 rounded-full blur-lg animate-pulse" />
-              <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-br from-purple-300/15 to-pink-300/15 rounded-full blur-md animate-bounce" style={{ animationDuration: '2s' }} />
-            </div>
+            {/* Gradient orbs */}
+            <div className="absolute top-10 right-10 w-72 h-72 bg-gradient-to-br from-orange-500/5 to-amber-500/5 rounded-full blur-3xl" />
 
-            <div className="max-w-[95vw] mx-auto px-2 relative z-10">
-              <div className="grid lg:grid-cols-3 gap-12 items-center">
-                {/* Enhanced text content */}
-                <div className="lg:col-span-1 space-y-6 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
-                  <div className="group">
-                    <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:scale-105 ${
-                      section.phase === 'THINK'
-                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' :
-                      section.phase === 'MAKE'
-                        ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg shadow-green-500/25' :
-                        'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/25'
-                    }`}>
-                      <div className="w-2 h-2 bg-white/80 rounded-full mr-2 animate-pulse" />
-                      {section.phase} PHASE
-                    </span>
-                  </div>
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                {/* Text content */}
+                <div className="space-y-6 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl p-8 border border-white/10">
+                  <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
+                    section.phase === 'THINK'
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white' :
+                    section.phase === 'MAKE'
+                      ? 'bg-gradient-to-r from-green-500 to-teal-500 text-white' :
+                      'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                  }`}>
+                    {section.phase} PHASE
+                  </span>
 
-                  <h2 className="text-4xl md:text-5xl font-black leading-tight text-gray-900">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
                     {section.title}
                   </h2>
 
-                  <p className="text-lg md:text-xl text-gray-900 leading-relaxed font-semibold">
+                  <p className="text-lg text-gray-300 leading-relaxed">
                     {section.content}
                   </p>
-
-                  {/* Decorative line */}
-                  <div className="flex items-center space-x-4">
-                    <div className={`h-1 w-16 rounded-full ${
-                      section.phase === 'THINK' ? 'bg-gradient-to-r from-blue-500 to-blue-600' :
-                      section.phase === 'MAKE' ? 'bg-gradient-to-r from-green-500 to-green-600' :
-                      'bg-gradient-to-r from-orange-500 to-orange-600'
-                    }`} />
-                  </div>
                 </div>
 
-                {/* Enhanced image with advanced hover effects */}
-                <div className="lg:col-span-2 relative group">
-                  {/* Floating background elements */}
-                  <div className="absolute -inset-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-sm animate-pulse" />
-                    <div className="absolute bottom-0 right-0 w-6 h-6 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full blur-sm animate-bounce" />
+                {/* Image */}
+                <div className="relative">
+                  <div className="relative rounded-2xl overflow-hidden border border-white/10">
+                    <Image
+                      src={`/images/${section.image}`}
+                      alt={section.title}
+                      width={800}
+                      height={600}
+                      className="w-full h-auto"
+                    />
                   </div>
-
-                  <div className="relative overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-4xl group-hover:-translate-y-3 group-hover:rotate-1">
-                    {/* Enhanced glow effect with animation */}
-                    <div className={`absolute -inset-2 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 blur-xl animate-pulse ${
-                      section.phase === 'THINK' ? 'bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500' :
-                      section.phase === 'MAKE' ? 'bg-gradient-to-r from-green-400 via-green-500 to-teal-500' :
-                      'bg-gradient-to-r from-orange-400 via-orange-500 to-red-500'
-                    }`} />
-
-                    <div className="relative bg-white rounded-2xl overflow-hidden border border-gray-100">
-                      <Image
-                        src={`/images/${section.image}`}
-                        alt={section.title}
-                        width={1600}
-                        height={1200}
-                        className="w-full h-auto transition-all duration-1000 group-hover:scale-110 group-hover:brightness-110"
-                      />
-
-                      {/* Multi-layer overlay effects */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-500/5 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-                      {/* Shimmer effect */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1500" />
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
               </div>
             </div>
@@ -475,59 +335,43 @@ export default function Portfolio() {
             key={section.id}
             ref={el => { sectionsRef.current[index] = el }}
             data-section-id={section.id}
-            className="py-20 bg-white"
+            className="py-20 bg-black relative overflow-hidden"
           >
-            <div className="max-w-[90vw] mx-auto px-4">
-              <div className="grid lg:grid-cols-5 gap-12 items-start">
-                <div className="lg:col-span-3 relative order-2 lg:order-1 group">
-                  {/* Floating background elements */}
-                  <div className="absolute -inset-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-sm animate-pulse" />
-                    <div className="absolute bottom-0 right-0 w-6 h-6 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full blur-sm animate-bounce" />
-                  </div>
+            {/* Gradient orbs */}
+            <div className="absolute bottom-10 left-10 w-72 h-72 bg-gradient-to-br from-orange-500/5 to-amber-500/5 rounded-full blur-3xl" />
 
-                  <div className="relative overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-4xl group-hover:-translate-y-3 group-hover:rotate-1">
-                    {/* Enhanced glow effect with animation */}
-                    <div className={`absolute -inset-2 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 blur-xl animate-pulse ${
-                      section.phase === 'THINK' ? 'bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500' :
-                      section.phase === 'MAKE' ? 'bg-gradient-to-r from-green-400 via-green-500 to-teal-500' :
-                      'bg-gradient-to-r from-orange-400 via-orange-500 to-red-500'
-                    }`} />
-
-                    <div className="relative bg-white rounded-2xl overflow-hidden border border-gray-100">
-                      <Image
-                        src={`/images/${section.image}`}
-                        alt={section.title}
-                        width={1600}
-                        height={1200}
-                        className="w-full h-auto transition-all duration-1000 group-hover:scale-110 group-hover:brightness-110"
-                      />
-
-                      {/* Multi-layer overlay effects */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-500/5 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-                      {/* Shimmer effect */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1500" />
-                      </div>
-                    </div>
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                {/* Image */}
+                <div className="relative order-2 md:order-1">
+                  <div className="relative rounded-2xl overflow-hidden border border-white/10">
+                    <Image
+                      src={`/images/${section.image}`}
+                      alt={section.title}
+                      width={800}
+                      height={600}
+                      className="w-full h-auto"
+                    />
                   </div>
                 </div>
-                <div className="lg:col-span-2 order-1 lg:order-2 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
-                  <div className="mb-4">
-                    <span className={`px-4 py-2 rounded-full text-sm font-semibold ${
-                      section.phase === 'THINK' ? 'bg-blue-500 text-white' :
-                      section.phase === 'MAKE' ? 'bg-green-500 text-white' :
-                      'bg-orange-500 text-white'
-                    }`}>
-                      {section.phase} PHASE
-                    </span>
-                  </div>
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+
+                {/* Text content */}
+                <div className="space-y-6 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl p-8 border border-white/10 order-1 md:order-2">
+                  <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
+                    section.phase === 'THINK'
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white' :
+                    section.phase === 'MAKE'
+                      ? 'bg-gradient-to-r from-green-500 to-teal-500 text-white' :
+                      'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                  }`}>
+                    {section.phase} PHASE
+                  </span>
+
+                  <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
                     {section.title}
                   </h2>
-                  <p className="text-lg md:text-xl text-gray-900 leading-relaxed font-semibold">
+
+                  <p className="text-lg text-gray-300 leading-relaxed">
                     {section.content}
                   </p>
                 </div>
@@ -542,39 +386,41 @@ export default function Portfolio() {
             key={section.id}
             ref={el => { sectionsRef.current[index] = el }}
             data-section-id={section.id}
-            className="py-12"
+            className="py-20 bg-black"
           >
-            <div className="max-w-[95vw] mx-auto px-2">
-              <div className="text-center mb-8 bg-white/80 backdrop-blur-sm rounded-2xl p-8 mx-auto max-w-5xl shadow-lg border border-gray-100">
-                <div className="flex justify-center mb-4">
-                  <span className={`px-4 py-2 rounded-full text-sm font-semibold ${
-                    section.phase === 'THINK' ? 'bg-blue-500 text-white' :
-                    section.phase === 'MAKE' ? 'bg-green-500 text-white' :
-                    'bg-orange-500 text-white'
-                  }`}>
-                    {section.phase} PHASE
-                  </span>
-                </div>
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="text-center mb-12 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl p-8 border border-white/10">
+                <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold mb-4 ${
+                  section.phase === 'THINK'
+                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white' :
+                  section.phase === 'MAKE'
+                    ? 'bg-gradient-to-r from-green-500 to-teal-500 text-white' :
+                    'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                }`}>
+                  {section.phase} PHASE
+                </span>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                   {section.title}
                 </h2>
-                <p className="text-lg md:text-xl text-gray-900 leading-relaxed max-w-4xl mx-auto font-semibold">
+                <p className="text-lg text-gray-300 leading-relaxed max-w-4xl mx-auto">
                   {section.content}
                 </p>
               </div>
-              <div className="relative">
-                <Image
-                  src={`/images/${section.image}`}
-                  alt={section.title}
-                  width={1800}
-                  height={1200}
-                  className="w-full h-auto rounded-xl shadow-2xl"
-                />
-              </div>
+              {/* Only show image if it's not the first bad image */}
+              {section.id !== 2 && (
+                <div className="relative rounded-2xl overflow-hidden border border-white/10">
+                  <Image
+                    src={`/images/${section.image}`}
+                    alt={section.title}
+                    width={1800}
+                    height={1200}
+                    className="w-full h-auto"
+                  />
+                </div>
+              )}
             </div>
           </section>
         )
-
 
       default:
         return null
@@ -582,189 +428,220 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 relative overflow-hidden">
-      {/* Animated background elements */}
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Background gradient orbs */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Floating geometric shapes */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-xl animate-pulse" />
-        <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-lg animate-bounce" style={{ animationDuration: '3s' }} />
-        <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-gradient-to-br from-green-400/10 to-blue-400/10 rounded-full blur-lg animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/3 left-2/3 w-28 h-28 bg-gradient-to-br from-orange-400/10 to-red-400/10 rounded-full blur-xl animate-bounce" style={{ animationDuration: '4s', animationDelay: '2s' }} />
-
-        {/* Animated gradient orbs */}
-        <div className="absolute top-1/4 right-1/4 w-40 h-40 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full blur-2xl animate-pulse" />
-        <div className="absolute bottom-1/4 left-1/3 w-36 h-36 bg-gradient-to-r from-green-500/5 to-teal-500/5 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-orange-500/10 to-amber-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-orange-400/10 to-yellow-500/10 rounded-full blur-3xl" />
       </div>
-      {/* Enhanced Navigation with Phase Indicator */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-b border-gray-200/30 shadow-xl">
-        {/* Animated background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 via-purple-50/30 to-blue-50/50 opacity-60" />
 
-        <div className="relative max-w-7xl mx-auto px-6 py-3">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            {/* Enhanced Logo with icon */}
-            <div className="flex items-center space-x-3 group cursor-pointer">
-              <div className="relative">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-                  <span className="text-white font-bold text-sm">L</span>
-                </div>
-                {/* Glow effect */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
+            {/* Back to Home */}
+            <a href="https://aruntscaria.com" className="flex items-center space-x-3 group">
+              <div className="bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-yellow-500/10 hover:from-orange-500/20 hover:via-amber-500/20 hover:to-yellow-500/20 backdrop-blur-sm border border-white/30 rounded-full p-2 transition-all duration-300 hover:scale-110 hover:shadow-lg">
+                <svg className="w-5 h-5 text-gray-300 group-hover:text-orange-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
               </div>
-              <div className="text-xl font-black bg-gradient-to-r from-gray-900 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Lean UX
+              <span className="hidden md:inline text-sm text-gray-300 group-hover:text-orange-400 transition-colors duration-300 font-medium">Back to Home</span>
+            </a>
+
+            {/* Logo */}
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">C</span>
+              </div>
+              <div className="text-xl font-bold text-white">
+                CompanionX
               </div>
             </div>
 
-            {/* Enhanced Phase Progress Indicator */}
-            <div className="hidden lg:flex items-center space-x-1 bg-white/60 backdrop-blur-sm rounded-full px-6 py-2 border border-gray-200/50 shadow-lg">
-              {(['THINK', 'MAKE', 'CHECK'] as const).map((phase, idx) => (
-                <div key={phase} className="flex items-center space-x-3">
-                  <div className={`relative flex items-center space-x-2 px-4 py-1 rounded-full transition-all duration-500 ${
+            {/* Phase indicator */}
+            <div className="hidden md:flex items-center space-x-4 bg-zinc-900/50 rounded-full px-6 py-2 border border-white/10">
+              {(['THINK', 'MAKE', 'CHECK'] as const).map((phase) => (
+                <button
+                  key={phase}
+                  onClick={() => {
+                    const firstSectionOfPhase = storySections.find(s => s.phase === phase)
+                    if (firstSectionOfPhase) {
+                      const element = document.querySelector(`[data-section-id="${firstSectionOfPhase.id}"]`)
+                      element?.scrollIntoView({ behavior: 'smooth' })
+                    }
+                  }}
+                  className={`flex items-center space-x-2 px-3 py-1 rounded-full transition-all cursor-pointer hover:bg-orange-500/10 ${
                     currentPhase === phase
-                      ? 'bg-gradient-to-r from-blue-100 to-purple-100 scale-105'
-                      : 'hover:bg-gray-100'
+                      ? 'bg-gradient-to-r from-orange-500/20 to-amber-500/20'
+                      : ''
+                  }`}
+                >
+                  <div className={`w-2 h-2 rounded-full ${
+                    currentPhase === phase
+                      ? phase === 'THINK' ? 'bg-orange-500' :
+                        phase === 'MAKE' ? 'bg-green-500' :
+                        'bg-blue-500'
+                      : 'bg-gray-600'
+                  }`} />
+                  <span className={`text-sm font-semibold ${
+                    currentPhase === phase ? 'text-white' : 'text-gray-500'
                   }`}>
-                    <div className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      currentPhase === phase
-                        ? phase === 'THINK' ? 'bg-blue-500 shadow-lg shadow-blue-500/50 animate-pulse' :
-                          phase === 'MAKE' ? 'bg-green-500 shadow-lg shadow-green-500/50 animate-pulse' :
-                          'bg-orange-500 shadow-lg shadow-orange-500/50 animate-pulse'
-                        : 'bg-gray-300'
-                    }`} />
-                    <span className={`text-sm font-semibold transition-colors ${
-                      currentPhase === phase ? 'text-gray-900' : 'text-gray-500'
-                    }`}>
-                      {phase}
-                    </span>
-                  </div>
-                  {idx < 2 && (
-                    <div className={`w-6 h-0.5 transition-all duration-300 ${
-                      currentPhase === phase ? 'bg-gradient-to-r from-blue-400 to-purple-400' : 'bg-gray-300'
-                    }`} />
-                  )}
-                </div>
+                    {phase}
+                  </span>
+                </button>
               ))}
             </div>
 
-            {/* Enhanced Navigation Links */}
-            <div className="hidden md:flex items-center space-x-4">
-              <a href="#story" className="flex items-center justify-center h-10 px-4 text-gray-900 hover:text-blue-600 transition-all duration-300 font-semibold text-sm hover:bg-blue-50 rounded-lg">
-                Work
-              </a>
-              <a href="#contact" className="flex items-center justify-center h-10 px-4 text-gray-900 hover:text-blue-600 transition-all duration-300 font-semibold text-sm hover:bg-blue-50 rounded-lg">
-                Contact
-              </a>
-              <button className="flex items-center justify-center h-10 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg text-sm">
-                Download CV
-              </button>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button className="p-3 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
+            {/* Empty spacer to balance layout */}
+            <div className="w-24 hidden md:block"></div>
           </div>
         </div>
       </nav>
+
+      {/* Mockup Carousel Hero Section */}
+      <section className="pt-16 md:pt-20 py-8 md:py-16 bg-black relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+        <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-br from-orange-500/10 to-amber-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-br from-orange-500/10 to-amber-500/10 rounded-full blur-3xl"></div>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 bg-clip-text text-transparent">
+              {mockups[currentMockupIndex]?.title || "CompanionX"}
+            </h2>
+            <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto px-4">
+              {mockups[currentMockupIndex]?.subtitle || "A Human-Centered Platform for Elderly Care"}
+            </p>
+          </div>
+
+          <div className="relative max-w-6xl mx-auto">
+            {/* Carousel Container */}
+            <div className="flex items-center justify-center min-h-[300px] md:min-h-[500px] overflow-visible">
+              <div className="relative w-full flex items-center justify-center overflow-visible">
+                {/* Gradient fade overlays */}
+                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-30 pointer-events-none"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-30 pointer-events-none"></div>
+
+                {mockups.map((mockup, index) => {
+                  const isActive = index === currentMockupIndex
+                  const isPrev = index === (currentMockupIndex - 1 + mockups.length) % mockups.length
+                  const isNext = index === (currentMockupIndex + 1) % mockups.length
+                  const isVisible = isActive || isPrev || isNext
+
+                  if (!isVisible) return null
+
+                  let transform = 'translateX(0px) scale(1)'
+                  let opacity = 1
+                  let zIndex = 5
+
+                  if (isPrev) {
+                    transform = 'translateX(300px) translateY(50px) scale(0.75) rotate(15deg)'
+                    opacity = 0.7
+                    zIndex = 2
+                  } else if (isNext) {
+                    transform = 'translateX(-300px) translateY(50px) scale(0.75) rotate(-15deg)'
+                    opacity = 0.7
+                    zIndex = 2
+                  } else if (isActive) {
+                    transform = 'translateX(0px) translateY(-50px) scale(1)'
+                    opacity = 1
+                    zIndex = 5
+                  }
+
+                  return (
+                    <div
+                      key={mockup.id}
+                      className="absolute transition-all duration-1000 ease-out"
+                      style={{
+                        transform: typeof window !== 'undefined' && window.innerWidth <= 768 ?
+                          (isPrev ? 'translateX(150px) translateY(25px) scale(0.75) rotate(10deg)' :
+                           isNext ? 'translateX(-150px) translateY(25px) scale(0.75) rotate(-10deg)' :
+                           'translateX(0px) translateY(-25px) scale(1)') : transform,
+                        opacity,
+                        zIndex,
+                        transformStyle: 'preserve-3d',
+                      }}
+                    >
+                      <Image
+                        src={`/images/mockups/${mockup.image}`}
+                        alt={mockup.title}
+                        width={256}
+                        height={450}
+                        className="w-40 md:w-64 h-auto rounded-2xl max-h-[250px] md:max-h-[450px] object-contain"
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {mockups.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentMockupIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentMockupIndex
+                      ? 'bg-orange-500 scale-125'
+                      : 'bg-orange-200 hover:bg-orange-300'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Story Sections */}
       <div id="story">
         {storySections.map((section, index) => renderSection(section, index))}
       </div>
 
-      {/* Enhanced Footer */}
-      <footer className="relative bg-gradient-to-br from-gray-900 via-blue-900/30 to-purple-900/20 text-white py-24 overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full blur-2xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full blur-xl animate-bounce" style={{ animationDuration: '3s' }} />
-          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-br from-green-500 to-teal-500 rounded-full blur-lg animate-pulse" style={{ animationDelay: '1s' }} />
-        </div>
-
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="w-full h-full" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }} />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 text-center z-10">
-          <div className="mb-12">
-            <h3 className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
-              Let&apos;s Create Something Amazing
-            </h3>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full mb-8" />
-            <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto text-gray-300 leading-relaxed">
-              Available for UX design opportunities in the UK and remote projects worldwide.
-              Ready to turn your ideas into extraordinary digital experiences.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <a href="mailto:arun@example.com" className="group relative overflow-hidden px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-gray-900 rounded-full font-bold hover:from-blue-50 hover:to-purple-50 transition-all duration-500 hover:scale-105 hover:shadow-2xl shadow-lg">
-              <span className="relative z-10 flex items-center justify-center gap-3">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                </svg>
-                Get in Touch
-              </span>
-              {/* Shimmer effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+      {/* Footer */}
+      <footer id="contact" className="relative bg-gradient-to-br from-zinc-900 to-black text-white py-16 border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h3 className="text-4xl font-bold mb-4 bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent">
+            Let&apos;s Create Something Amazing
+          </h3>
+          <p className="text-xl mb-8 text-gray-300">
+            Available for UX design opportunities in the UK and remote projects worldwide.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="mailto:arun.tscaria@gmail.com"
+              className="px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-full font-semibold hover:from-orange-600 hover:to-amber-600 transition-all"
+            >
+              Get in Touch
             </a>
-
-            <a href="#" className="group relative overflow-hidden px-10 py-5 border-2 border-white/80 text-white rounded-full font-bold hover:bg-white hover:text-gray-900 transition-all duration-500 hover:scale-105 hover:shadow-2xl backdrop-blur-sm">
-              <span className="relative z-10 flex items-center justify-center gap-3">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-                Download CV
-              </span>
+            <a
+              href="https://aruntscaria.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-4 border-2 border-orange-500 text-orange-400 rounded-full font-semibold hover:bg-orange-500 hover:text-white transition-all"
+            >
+              View Portfolio
             </a>
           </div>
-
-          {/* Social links or additional content */}
-          <div className="border-t border-white/20 pt-8">
-            <p className="text-gray-400 text-sm">
-              © 2024 Lean UX Portfolio. Crafted with passion for exceptional user experiences.
+          <div className="mt-12 pt-8 border-t border-white/10">
+            <p className="text-gray-500 text-sm">
+              © 2025 CompanionX. Crafted with passion for exceptional user experiences.
             </p>
           </div>
         </div>
       </footer>
 
-      {/* Enhanced Floating Back to Top Button */}
+      {/* Back to top button */}
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 group p-5 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 text-white rounded-full shadow-2xl hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 transition-all duration-500 hover:scale-125 hover:shadow-4xl hover:rotate-12 animate-bounce"
-          style={{ animationDuration: '3s' }}
+          className="fixed bottom-8 right-8 z-50 p-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-full hover:from-orange-600 hover:to-amber-600 transition-all"
           aria-label="Back to top"
         >
-          <svg className="w-7 h-7 transition-all duration-500 group-hover:-translate-y-2 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
           </svg>
-
-          {/* Enhanced glow effects */}
-          <div className="absolute -inset-2 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 rounded-full blur-lg opacity-0 group-hover:opacity-75 transition-all duration-500 animate-pulse -z-10" />
-          <div className="absolute -inset-4 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-500 rounded-full blur-xl opacity-0 group-hover:opacity-50 transition-all duration-700 -z-20" />
-
-          {/* Shimmer effect */}
-          <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-          </div>
-
-          {/* Floating particles */}
-          <div className="absolute -inset-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div className="absolute top-0 left-2 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '0.1s' }} />
-            <div className="absolute bottom-2 right-0 w-1 h-1 bg-blue-300 rounded-full animate-ping" style={{ animationDelay: '0.3s' }} />
-            <div className="absolute top-3 right-3 w-1 h-1 bg-purple-300 rounded-full animate-ping" style={{ animationDelay: '0.5s' }} />
-          </div>
         </button>
       )}
     </div>
