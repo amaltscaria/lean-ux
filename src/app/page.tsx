@@ -2,6 +2,9 @@
 
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import ScrollAnimation from '../components/ScrollAnimation'
+import TiltCard from '../components/TiltCard'
 
 interface StorySection {
   id: number
@@ -213,6 +216,11 @@ export default function Portfolio() {
   const [currentPhase, setCurrentPhase] = useState<'THINK' | 'MAKE' | 'CHECK'>('THINK')
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
 
+  // Parallax scrolling
+  const { scrollY } = useScroll()
+  const orb1Y = useTransform(scrollY, [0, 1000], [0, 200])
+  const orb2Y = useTransform(scrollY, [0, 1000], [0, -150])
+
   // Mockup carousel state
   const [currentMockupIndex, setCurrentMockupIndex] = useState(0)
   const mockups = [
@@ -292,7 +300,8 @@ export default function Portfolio() {
             <div className="max-w-7xl mx-auto px-6 relative z-10">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 {/* Text content */}
-                <div className="space-y-6 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl p-8 border border-white/10">
+                <ScrollAnimation delay={0.1}>
+                <TiltCard className="space-y-6 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl p-8 border border-white/10">
                   <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
                     section.phase === 'THINK'
                       ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white' :
@@ -310,9 +319,11 @@ export default function Portfolio() {
                   <p className="text-lg text-gray-300 leading-relaxed">
                     {section.content}
                   </p>
-                </div>
+                </TiltCard>
+                </ScrollAnimation>
 
                 {/* Image */}
+                <ScrollAnimation delay={0.2}>
                 <div className="relative">
                   <div className="relative rounded-2xl overflow-hidden border border-white/10">
                     <Image
@@ -324,6 +335,7 @@ export default function Portfolio() {
                     />
                   </div>
                 </div>
+                </ScrollAnimation>
               </div>
             </div>
           </section>
@@ -343,6 +355,7 @@ export default function Portfolio() {
             <div className="max-w-7xl mx-auto px-6 relative z-10">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 {/* Image */}
+                <ScrollAnimation delay={0.1}>
                 <div className="relative order-2 md:order-1">
                   <div className="relative rounded-2xl overflow-hidden border border-white/10">
                     <Image
@@ -354,9 +367,11 @@ export default function Portfolio() {
                     />
                   </div>
                 </div>
+                </ScrollAnimation>
 
                 {/* Text content */}
-                <div className="space-y-6 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl p-8 border border-white/10 order-1 md:order-2">
+                <ScrollAnimation delay={0.2}>
+                <TiltCard className="space-y-6 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl p-8 border border-white/10 order-1 md:order-2">
                   <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
                     section.phase === 'THINK'
                       ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white' :
@@ -374,7 +389,8 @@ export default function Portfolio() {
                   <p className="text-lg text-gray-300 leading-relaxed">
                     {section.content}
                   </p>
-                </div>
+                </TiltCard>
+                </ScrollAnimation>
               </div>
             </div>
           </section>
@@ -389,7 +405,8 @@ export default function Portfolio() {
             className="py-20 bg-black"
           >
             <div className="max-w-7xl mx-auto px-6">
-              <div className="text-center mb-12 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl p-8 border border-white/10">
+              <ScrollAnimation delay={0.1}>
+              <TiltCard className="text-center mb-12 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-2xl p-8 border border-white/10">
                 <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold mb-4 ${
                   section.phase === 'THINK'
                     ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white' :
@@ -405,9 +422,11 @@ export default function Portfolio() {
                 <p className="text-lg text-gray-300 leading-relaxed max-w-4xl mx-auto">
                   {section.content}
                 </p>
-              </div>
+              </TiltCard>
+              </ScrollAnimation>
               {/* Only show image if it's not the first bad image */}
               {section.id !== 2 && (
+                <ScrollAnimation delay={0.2}>
                 <div className="relative rounded-2xl overflow-hidden border border-white/10">
                   <Image
                     src={`/images/${section.image}`}
@@ -417,6 +436,7 @@ export default function Portfolio() {
                     className="w-full h-auto"
                   />
                 </div>
+                </ScrollAnimation>
               )}
             </div>
           </section>
@@ -429,10 +449,16 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      {/* Background gradient orbs */}
+      {/* Background gradient orbs with parallax */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-orange-500/10 to-amber-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-orange-400/10 to-yellow-500/10 rounded-full blur-3xl" />
+        <motion.div
+          style={{ y: orb1Y }}
+          className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-orange-500/10 to-amber-500/10 rounded-full blur-3xl"
+        />
+        <motion.div
+          style={{ y: orb2Y }}
+          className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-orange-400/10 to-yellow-500/10 rounded-full blur-3xl"
+        />
       </div>
 
       {/* Navigation */}
