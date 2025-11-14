@@ -636,7 +636,7 @@ export default function Portfolio() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="mailto:arun.tscaria@gmail.com"
+              href="mailto:aruntharappel95@gmail.com"
               className="px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-full font-semibold hover:from-orange-600 hover:to-amber-600 transition-all"
             >
               Get in Touch
